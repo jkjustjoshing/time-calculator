@@ -1,10 +1,17 @@
 <script>
+	import Numbers from './Numbers.svelte';
+
 	export let name;
+
+	const handleNumber = ({ detail }) => {
+		console.log('the', detail.number)
+	}
 </script>
 
 <main>
 	<h1>Hello {name}!</h1>
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+	<Numbers on:number={handleNumber} />
 </main>
 
 <style>
