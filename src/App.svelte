@@ -1,11 +1,14 @@
 <script>
   import Numbers from './Numbers.svelte'
+  import { store, send } from './machineStore'
 
   export let name
 
   const handleNumber = ({ detail }) => {
-    console.log('the', detail.number)
+    send({ type: 'NUMBER', value: detail.number })
   }
+
+  $: context = JSON.stringify($store.context)
 </script>
 
 <style>
@@ -35,7 +38,7 @@
   <p>
     Visit the
     <a href="https://svelte.dev/tutorial">Svelte tutorial</a>
-    to learn how to build Svelte apps.
+    to learn how to build Svelte apps. {context}
   </p>
   <Numbers on:number={handleNumber} />
 </main>
