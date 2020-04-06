@@ -6,6 +6,7 @@ const service = interpret(stateMachine, {})
 
 export const store = readable(stateMachine.initialState, (set) => {
   service.onTransition((state) => {
+    console.log('new state', state)
     if (state.changed) {
       set(state)
     }

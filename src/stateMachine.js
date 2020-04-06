@@ -1,11 +1,5 @@
 import { Machine, assign } from 'xstate'
 
-const inputNumber = assign({
-  number1: (context, event) => {
-    return context.number1 + event.value
-  },
-})
-
 export const stateMachine = Machine(
   {
     id: 'calculator',
@@ -14,13 +8,14 @@ export const stateMachine = Machine(
       number1: '',
       operand: null,
       number2: '',
+      result: null,
     },
     states: {
       init: {
         on: {
           NUMBER: {
             target: 'waitingForInput',
-            actions: 'inputNumber',
+            actions: 'inputNumber1',
           },
         },
       },
@@ -28,15 +23,24 @@ export const stateMachine = Machine(
         on: {
           NUMBER: {
             target: 'waitingForInput',
-            actions: 'inputNumber',
+            actions: 'inputNumber1',
           },
-          OPERAND: 'waitingForSecondInput',
+          OPERAND: {
+            target: 'waitingForSecondInput',
+            actions: 'inputOperand',
+          },
         },
       },
       waitingForSecondInput: {
         on: {
-          NUMBER: 'waitingForSecondInput',
-          GET_RESULT: 'result',
+          NUMBER: {
+            target: 'waitingForSecondInput',
+            actions: 'inputNumber2',
+          },
+          GET_RESULT: {
+            target: 'result',
+            actions: 'computeResult',
+          },
         },
       },
       result: {
@@ -45,6 +49,23 @@ export const stateMachine = Machine(
     },
   },
   {
-    actions: { inputNumber },
+    actions: {
+      inputNumber1: assign({
+        number1: (context, event) => context.number1 + event.value,
+      }),
+      inputNumber2: assign({
+        number2: (context, event) => context.number2 + event.value,
+      }),
+      inputOperand: assign({
+        operand: (context, event) => event.value,
+      }),
+      computeResult: assign({
+        result: (context) => {
+          const a = parseInt(context.number1, 10)
+          const b = parseInt(context.number2, 10)
+          return context.operand.fn(a, b)
+        },
+      }),
+    },
   }
 )

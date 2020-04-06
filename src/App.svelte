@@ -1,11 +1,17 @@
 <script>
-  import Numbers from './Numbers.svelte'
+  import Buttons from './Buttons.svelte'
   import { store, send } from './machineStore'
 
   export let name
 
-  const handleNumber = ({ detail }) => {
-    send({ type: 'NUMBER', value: detail.number })
+  const handleButton = ({ detail }) => {
+    console.log('button', detail)
+    if (detail.type === 'number') {
+      send({ type: 'NUMBER', value: detail.value })
+    } else if (detail.type === 'operand') {
+      console.log('operand')
+      send({ type: 'OPERAND', value: detail.value })
+    }
   }
 
   $: context = JSON.stringify($store.context)
@@ -40,5 +46,6 @@
     <a href="https://svelte.dev/tutorial">Svelte tutorial</a>
     to learn how to build Svelte apps. {context}
   </p>
-  <Numbers on:number={handleNumber} />
+  <Buttons on:button={handleButton} />
+  <button on:click={() => send({ type: 'GET_RESULT' })}>=</button>
 </main>
