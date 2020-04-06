@@ -1,12 +1,14 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()
 
-  const numbers = Array(10).fill().map((_, i) => i + 1)
+  const numbers = Array(10)
+    .fill()
+    .map((_, i) => i + 1)
 
-  const buttonClick = (e) => {
+  const buttonClick = e => {
     const number = parseInt(e.target.textContent, 10)
-    dispatch('number', { number });
+    dispatch('number', { number })
   }
 </script>
 
