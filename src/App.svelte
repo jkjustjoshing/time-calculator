@@ -5,14 +5,6 @@
 
   $: state = $store.state
   $: dispatch = $store.dispatch
-
-  const handleButton = ({ detail }) => {
-    if (detail.type === 'number') {
-      dispatch({ type: 'NUMBER', value: detail.value })
-    } else if (detail.type === 'operand') {
-      dispatch({ type: 'OPERAND', value: detail.value })
-    }
-  }
 </script>
 
 <style>
@@ -21,7 +13,7 @@
 
 <main>
   <Screen {state} />
-  <Buttons on:button={handleButton} />
+  <Buttons />
   <button on:click={() => dispatch({ type: 'GET_RESULT' })}>=</button>
   <button on:click={() => dispatch({ type: 'CLEAR' })}>C</button>
 </main>

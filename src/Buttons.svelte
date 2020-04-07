@@ -1,6 +1,8 @@
 <script>
-  import { createEventDispatcher } from 'svelte'
-  const dispatch = createEventDispatcher()
+  import { store } from './reducerStore'
+
+  $: state = $store.state
+  $: dispatch = $store.dispatch
 
   const numbers = Array(10)
     .fill()
@@ -13,11 +15,10 @@
   ]
 
   const numberClick = e => {
-    const number = parseInt(e.target.textContent, 10)
-    dispatch('button', { type: 'number', value: number })
+    dispatch({ type: 'NUMBER', value: e.target.textContent })
   }
   const operandClick = operand => {
-    dispatch('button', { type: 'operand', value: operand })
+    dispatch({ type: 'OPERAND', value: operand })
   }
 </script>
 
