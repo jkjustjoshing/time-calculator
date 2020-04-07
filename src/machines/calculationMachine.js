@@ -1,6 +1,6 @@
 import { Machine, assign } from 'xstate'
 
-export const stateMachine = Machine(
+export const calculationMachine = Machine(
   {
     id: 'calculator',
     initial: 'init',
