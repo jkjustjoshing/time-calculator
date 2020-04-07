@@ -2,7 +2,10 @@ import { readable } from 'svelte/store'
 
 const reducer = (state, action) => {
   if (action.type === 'NUMBER') {
-    console.log('foobar', state)
+    if (state.result != null) {
+      return state
+    }
+
     const key = state.operand ? 'number2' : 'number1'
     return { ...state, [key]: (state[key] || '') + action.value }
   }
@@ -15,6 +18,10 @@ const reducer = (state, action) => {
     const number1 = parseInt(state.number1)
     const number2 = parseInt(state.number2)
     return { ...state, result: state.operand.fn(number1, number2) }
+  }
+
+  if (action.type === 'CLEAR') {
+    return initValue
   }
 
   return state
