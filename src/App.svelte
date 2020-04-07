@@ -1,20 +1,22 @@
 <script>
   import Buttons from './Buttons.svelte'
-  import { store, send } from './machineStore'
+  import { store } from './reducerStore'
 
   export let name
+
+  const { state, dispatch } = $store
+
+  $: console.log($store.state)
 
   const handleButton = ({ detail }) => {
     console.log('button', detail)
     if (detail.type === 'number') {
-      send({ type: 'NUMBER', value: detail.value })
+      dispatch({ type: 'NUMBER', value: detail.value })
     } else if (detail.type === 'operand') {
       console.log('operand')
-      send({ type: 'OPERAND', value: detail.value })
+      dispatch({ type: 'OPERAND', value: detail.value })
     }
   }
-
-  $: context = JSON.stringify($store.context)
 </script>
 
 <style>
@@ -44,8 +46,8 @@
   <p>
     Visit the
     <a href="https://svelte.dev/tutorial">Svelte tutorial</a>
-    to learn how to build Svelte apps. {context}
+    to learn how to build Svelte apps. {JSON.stringify($store.state)}
   </p>
   <Buttons on:button={handleButton} />
-  <button on:click={() => send({ type: 'GET_RESULT' })}>=</button>
+  <button on:click={() => dispatch({ type: 'GET_RESULT' })}>=</button>
 </main>
