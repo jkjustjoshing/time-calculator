@@ -8,7 +8,7 @@
     }
     const hours = Math.floor(value / 3600)
     const minutes = Math.floor((value - hours * 3600) / 60)
-    const seconds = (value - hours * 3600 - minutes * 60).toFixed(2)
+    const seconds = (value - hours * 3600 - minutes * 60).toFixed(0)
 
     let output = []
     if (hours) {

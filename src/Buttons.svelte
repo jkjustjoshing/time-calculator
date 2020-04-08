@@ -36,7 +36,7 @@
       'n-7 n-8 n-9 t-h'
       'n-4 n-5 n-6 t-m'
       'n-1 n-2 n-3 t-s'
-      'n-0 .   .   .  ';
+      'n-0 dec equ .  ';
   }
   .grid button {
     color: red;
@@ -49,6 +49,12 @@
       {number}
     </button>
   {/each}
+  <button
+    on:click={() => dispatch({ type: 'DECIMAL' })}
+    style="grid-area: dec;">
+    .
+  </button>
+
   {#each times as time}
     <button on:click={() => timeClick(time)} style="grid-area: t-{time};">
       {time}

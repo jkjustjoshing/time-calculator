@@ -10,7 +10,7 @@ const parseTime = (timeString) => {
   const parts = Array.from(timeString).reduce(
     (acc, nextChar) => {
       const obj = acc[acc.length - 1]
-      if (nextChar.match(/\d/)) {
+      if (nextChar.match(/\d|\./)) {
         obj.text += nextChar
       } else {
         obj.unit = nextChar
@@ -22,10 +22,7 @@ const parseTime = (timeString) => {
   )
   parts.pop()
 
-  return parts.reduce(
-    (acc, next) => acc + parseInt(next.text, 10) * units[next.unit],
-    0
-  )
+  return parts.reduce((acc, next) => acc + +next.text * units[next.unit], 0)
 }
 
 const reducer = (state, action) => {
@@ -37,6 +34,16 @@ const reducer = (state, action) => {
     const key = state.operand ? 'number2' : 'number1'
     return { ...state, [key]: (state[key] || '') + action.value }
   }
+
+  if (action.type === 'DECIMAL') {
+    if (state.result != null) {
+      return state
+    }
+
+    const key = state.operand ? 'number2' : 'number1'
+    return { ...state, [key]: (state[key] || '') + '.' }
+  }
+
   if (action.type === 'TIME') {
     const key = state.operand ? 'number2' : 'number1'
     if (!state[key] || !state[key].match(/\d$/)) {
@@ -58,13 +65,13 @@ const reducer = (state, action) => {
       number2,
       isTime = false
 
-    if (state.number1.match(/^\d+$/)) {
+    if (state.number1.match(/^(\d|\.)+$/)) {
       number1 = parseInt(state.number1, 10)
     } else {
       isTime = true
       number1 = parseTime(state.number1)
     }
-    if (state.number2.match(/^\d+$/)) {
+    if (state.number2.match(/^(\d|\.)+$/)) {
       number2 = parseInt(state.number2, 10)
     } else {
       isTime = true
