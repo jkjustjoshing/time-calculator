@@ -13,7 +13,7 @@
   const operands = [
     { text: '+', fn: (a, b) => a + b },
     { text: '-', fn: (a, b) => a - b },
-    { text: '/', fn: (a, b) => a / b },
+    { text: '÷', fn: (a, b) => a / b },
     { text: '×', fn: (a, b) => a * b }
   ]
 
